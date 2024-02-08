@@ -37,7 +37,7 @@ Keep in mind any custom X.org configuration may get deleted or overwritten when 
 ### Integrated
 
 - The integrated Intel or AMD iGPU is used exclusively
-- Nvidia dGPU is turned off to reduce power consumption
+- Nvidia dGPU is passed through to VFIO driver. When no virtual machine with the dGPU is in use this gives similar power savings to full integrated mode. 
 - External screens cannot be used if the video ports are wired to the dGPU
 
 ### Hybrid
