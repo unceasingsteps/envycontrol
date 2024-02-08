@@ -36,7 +36,7 @@ alias nvidia_current_modeset off
 
 VFIO_PATH = '/etc/modprobe.d/vfio.conf'
 
-VFIO_CONTENT = '''
+VFIO_CONTENT = ''' #figure out a way to not hardcode the values 
 options vfio-pci ids=10de:24b7,10de:228b
 softdep drm pre: vfio-pci
 '''
