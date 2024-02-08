@@ -237,12 +237,28 @@ def graphics_mode_switcher(graphics_mode, user_display_manager, enable_force_com
         # blacklist all nouveau and Nvidia modules
         create_file(BLACKLIST_PATH, BLACKLIST_CONTENT)
 
+        # power off the Nvidia GPU with udev rules
+        create_file(UDEV_INTEGRATED_PATH, UDEV_INTEGRATED)
+
+        rebuild_initramfs()
+    elif graphics_mode == 'vfio':
+        if logging.getLogger().level == logging.DEBUG:
+            service = subprocess.run(["systemctl", "disable", "nvidia-persistenced.service"])
+        else:
+            service = subprocess.run(["systemctl", "disable", "nvidia-persistenced.service"],stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if service.returncode == 0:
+            print('Successfully disabled nvidia-persistenced.service')
+        else:
+            logging.error("An error ocurred while disabling service")
+
+        cleanup()
+
+        # blacklist all nouveau and Nvidia modules
+        create_file(BLACKLIST_PATH, BLACKLIST_CONTENT)
+
         #set up vfio 
         create_file(VFIO_PATH, VFIO_CONTENT)
-
-        # power off the Nvidia GPU with udev rules
-        # create_file(UDEV_INTEGRATED_PATH, UDEV_INTEGRATED)
-
+        
         rebuild_initramfs()
     elif graphics_mode == 'hybrid':
         print(
@@ -344,6 +360,7 @@ def cleanup():
     # define list of files to remove
     to_remove = [
         BLACKLIST_PATH,
+        VFIO_PATH,
         UDEV_INTEGRATED_PATH,
         UDEV_PM_PATH,
         XORG_PATH,
