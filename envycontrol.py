@@ -211,7 +211,7 @@ xrandr --setprovideroutputsource "{}" NVIDIA-0
 xrandr --auto
 '''
 
-SUPPORTED_MODES = ['integrated', 'hybrid', 'nvidia']
+SUPPORTED_MODES = ['integrated', 'vfio', 'hybrid', 'nvidia']
 SUPPORTED_DISPLAY_MANAGERS = ['gdm', 'gdm3', 'sddm', 'lightdm']
 RTD3_MODES = [0, 1, 2, 3]
 
